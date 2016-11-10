@@ -1,7 +1,7 @@
 package es.jpery.dentalClinic.domain;
 
 /**
- * Edited by JPery on 03/11/16
+ * Created by JPery on 9/11/16
  */
 public class User {
 
