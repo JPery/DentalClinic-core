@@ -1,6 +1,5 @@
 package es.jpery.dentalClinic.domain;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -10,25 +9,35 @@ public class Arrangement {
 	public final static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
 	private int id;
-	private String title;
+	private int kindOfIntervention;
 	private Date date;
 	private int owner;
+	private String comment;
 
 	public Arrangement() {
 	}
 
-	public Arrangement(int id, String title, Date date, int owner) {
+	public Arrangement(int id, int kindOfIntervention, Date date, int owner, String comment) {
 		this.id = id;
-		this.title = title;
+		this.kindOfIntervention = kindOfIntervention;
 		this.date = date;
 		this.owner = owner;
+		this.comment = comment;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setTitle(String title) { this.title = title; }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public int getKindOfIntervention() {
+		return kindOfIntervention;
+	}
+
+	public void setKindOfIntervention(int kindOfIntervention) { this.kindOfIntervention = kindOfIntervention; }
 
 	public Date getDate() {
 		return date;

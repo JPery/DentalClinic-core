@@ -63,7 +63,7 @@ public class ArrangementController {
     @RequestMapping(value = "/date={date}")
     public ResponseEntity<List<Arrangement>> getAvailableArrangementsByArrangement(@PathVariable String date){
         try {
-            return new ResponseEntity(arrangementDAO.getAvailableArrangementsByArrangement(new Arrangement(-1, "", Arrangement.FORMAT.parse(date), -1)), HttpStatus.OK);
+            return new ResponseEntity(arrangementDAO.getAvailableArrangementsByArrangement(new Arrangement(-1, -1, Arrangement.FORMAT.parse(date), -1,"")), HttpStatus.OK);
         }
         catch (ParseException e){
             e.printStackTrace();
