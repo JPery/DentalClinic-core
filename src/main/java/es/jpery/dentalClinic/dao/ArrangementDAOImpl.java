@@ -39,8 +39,6 @@ public class ArrangementDAOImpl implements ArrangementDAO {
                     + "OWNER INTEGER NOT NULL,"
                     + "COMMENT VARCHAR (40),"
                     + "PRIMARY KEY (ID)) ");
-            s.executeUpdate("INSERT INTO ARRANGEMENTS (title, date, owner) SELECT 1, '2017-01-05 18:30:00', 0 FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from ARRANGEMENTS where id=0)");
-            s.executeUpdate("INSERT INTO ARRANGEMENTS (title, date, owner) SELECT 2, '2017-01-05 19:30:00', 1 FROM INFORMATION_SCHEMA.TABLES WHERE not exists (select  * from ARRANGEMENTS where id=1)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,12 +96,17 @@ public class ArrangementDAOImpl implements ArrangementDAO {
     public boolean addArrangement(Arrangement arrangement) {
         try {
             if (arrangement.getKindOfIntervention() > 0) {
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ARRANGEMENTS (title, date, owner,comment) VALUES ?, ?, ?, ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ARRANGEMENTS (title, date, owner,comment) VALUES ?, ?, ?, ?",Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setInt(1, arrangement.getKindOfIntervention());
                 preparedStatement.setTimestamp(2, new Timestamp(arrangement.getDate().getTime()));
                 preparedStatement.setInt(3, arrangement.getOwner());
                 preparedStatement.setString(4,arrangement.getComment());
                 preparedStatement.execute();
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if(generatedKeys.next()) {
+                    arrangement.setId(generatedKeys.getInt(1));
+                }
+
                 return true;
             } else
                 return false;
@@ -209,5 +212,18 @@ public class ArrangementDAOImpl implements ArrangementDAO {
             }
         }
         return busy;
+    }
+
+    @Override
+    public boolean deleteArrangement(int arrangementid){
+        int rows=0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ARRANGEMENTS WHERE ID = ?");
+            preparedStatement.setInt(1, arrangementid);
+            rows = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows>0;
     }
 }

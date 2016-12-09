@@ -70,4 +70,14 @@ public class ArrangementController {
         }
         return null;
     }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/{arrangementid}")
+    public ResponseEntity<?> deleteArrangement(@PathVariable int arrangementid) {
+        if (arrangementDAO.deleteArrangement(arrangementid)) {
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

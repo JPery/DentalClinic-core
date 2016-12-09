@@ -14,4 +14,5 @@ public interface ArrangementDAO {
     boolean addArrangement(Arrangement arrangement);
     boolean updateArrangement(int arrangementid, Arrangement arrangement);
     List<Arrangement> getAvailableArrangementsByArrangement(Arrangement arrangement);
+    boolean deleteArrangement(int arrangementid);
 }
